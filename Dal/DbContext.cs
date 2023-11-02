@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Dal.Models;
 using Dal.Exceptions;
-using Microsoft.Extensions.Hosting;
 
 namespace Dal.Repositories
 {
@@ -12,8 +11,6 @@ namespace Dal.Repositories
         DbSet<Developer> _developers { get; set; }
 
         DbSet<Genre> _genres { get; set; }
-
-        //DbSet<GameGenre> _gameGenres { get; set; }
 
         public GameDatabase(DbContextOptions options) : base(options) { }
 
@@ -38,11 +35,13 @@ namespace Dal.Repositories
         {
             if (genreFilter == null || genreFilter.Count() == 0)
             {
-                return await _games.Include(x => x.GameGenres).Include(x => x.Developer).ToListAsync();
+                return await _games.Include(x => x.GameGenres).ThenInclude(gg => gg.Genre).Include(x => x.Developer).ToListAsync();
             }
 
-            var filteredGames = await _games.Include(x => x.GameGenres).Include(x => x.Developer)
-                .Where(game => game.GameGenres.Any(x => genreFilter.Contains(x.Genre.Name)))
+            var filteredGames = await _games
+                .Where(game => game.GameGenres.Any(gg => genreFilter.Contains(gg.Genre.Name)))
+                .Include(game => game.GameGenres).ThenInclude(gg => gg.Genre)
+                .Include(game => game.Developer)
                 .ToListAsync();
             return filteredGames;
         }

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dal.Migrations
 {
     [DbContext(typeof(GameDatabase))]
-    [Migration("20231102232056_InitialCreate")]
+    [Migration("20231102232805_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

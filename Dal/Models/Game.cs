@@ -17,16 +17,13 @@ namespace Dal.Models
         [JsonIgnore]
         [ForeignKey("DeveloperId")]
         public int DeveloperId { get; set; }
-        //[JsonIgnore]
         public virtual Developer Developer { get; set; }
 
         [JsonIgnore]
         [NotMapped]
         public required string DeveloperTitle { get; set; }
 
-        //[JsonIgnore]
-        [NotMapped]
-        public List<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+        public virtual List<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
     }
 }
 
