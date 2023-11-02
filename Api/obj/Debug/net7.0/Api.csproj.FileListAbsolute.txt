@@ -5,6 +5,7 @@
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Api.runtimeconfig.json
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Api.dll
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Api.pdb
+/Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Api.xml
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Humanizer.dll
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Microsoft.AspNetCore.JsonPatch.dll
 /Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
@@ -45,8 +46,7 @@
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.csproj.CopyComplete
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.dll
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/refint/Api.dll
+/Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.xml
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.pdb
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.genruntimeconfig.cache
 /Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/ref/Api.dll
-/Users/aidimirmagomedov/Projects/Test/Api/bin/Debug/net7.0/Api.xml
-/Users/aidimirmagomedov/Projects/Test/Api/obj/Debug/net7.0/Api.xml

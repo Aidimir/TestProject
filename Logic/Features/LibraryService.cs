@@ -13,11 +13,11 @@ namespace Logic.Features
             _database = database;
         }
 
-        public async Task<Game> CreateGame(Game game)
+        public async Task<Game> CreateGame(Game game, List<string> genres)
         {
             var developer = await _database.FindOrCreateDeveloperAsync(game.DeveloperTitle);
             game.Developer = developer;
-            var result = await _database.AddGameToDbAsync(game);
+            var result = await _database.AddGameToDbAsync(game, genres);
 
             return result;
         }

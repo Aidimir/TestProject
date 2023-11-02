@@ -29,8 +29,8 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
         public async Task<ActionResult<Game>> Create(CreateGameRequestModel request)
         {
-            var game = new Game { DeveloperTitle = request.Developer, Genre = request.Genre, Title = request.Title };
-            var createdGame = await _service.CreateGame(game);
+            var game = new Game { DeveloperTitle = request.Developer, Title = request.Title };
+            var createdGame = await _service.CreateGame(game, request.Genre);
 
             return StatusCode(201, createdGame);
         }
