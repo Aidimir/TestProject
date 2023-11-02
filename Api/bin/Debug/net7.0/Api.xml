@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Api</name>
+    </assembly>
+    <members>
+        <member name="M:Api.Controllers.GamesController.Create(Api.Controllers.DTO.RequestModels.CreateGameRequestModel)">
+            <summary>
+            Creates new game in database
+            </summary>
+            <response code="201">Game created succesfully</response>
+            <param name="request">Your game-create request</param>
+            <returns>Returns just created game object</returns>
+        </member>
+        <member name="M:Api.Controllers.GamesController.FetchGames(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Retrieves games from database
+            </summary>
+            <response code="200">Games retreived succesfully</response>
+            <param name="genres">List of genre strings, can be null or contain some values. If database has no such genres it will return empty list of games</param>
+            <returns>Returns a list of games which satisfies to given parameters (if parameters is null or empty => just returns all games in db)</returns>
+        </member>
+        <member name="M:Api.Controllers.GamesController.Update(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Dal.Models.Game})">
+            <summary>
+            Updates game property in database
+            </summary>
+            <param name="gameId">Unique integer id of the game</param>
+            <param name="gameModel">Patch model of the game</param>
+            <response code="202">Game updated succesfully</response>
+            <response code="404">Didn't find any game in database</response>
+            <response code="400">Bad request</response>
+            <remarks>
+            Sample request:
+            
+                 PATCH
+                 {
+                     {
+                         "path": "Title",
+                         "op": "replace",
+                         "value": "My new title"
+                     },
+                     {
+                         "path": "Genre",
+                         "op": "replace",
+                         "value": "["Cringe horror"]"
+                     }
+                 }
+            </remarks>
+        </member>
+        <member name="M:Api.Controllers.GamesController.Delete(System.Int32)">
+            <summary>
+            Removes game from database 
+            </summary>
+            <param name="gameId">Unique integer id of the game</param>
+        </member>
+    </members>
+</doc>

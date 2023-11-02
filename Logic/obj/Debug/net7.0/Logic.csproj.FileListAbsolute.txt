@@ -1,0 +1,15 @@
+/Users/aidimirmagomedov/Projects/Test/Logic/bin/Debug/net7.0/Logic.deps.json
+/Users/aidimirmagomedov/Projects/Test/Logic/bin/Debug/net7.0/Logic.dll
+/Users/aidimirmagomedov/Projects/Test/Logic/bin/Debug/net7.0/Logic.pdb
+/Users/aidimirmagomedov/Projects/Test/Logic/bin/Debug/net7.0/Dal.dll
+/Users/aidimirmagomedov/Projects/Test/Logic/bin/Debug/net7.0/Dal.pdb
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.csproj.AssemblyReference.cache
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.AssemblyInfoInputs.cache
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.AssemblyInfo.cs
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.csproj.CoreCompileInputs.cache
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.csproj.CopyComplete
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.dll
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/refint/Logic.dll
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/Logic.pdb
+/Users/aidimirmagomedov/Projects/Test/Logic/obj/Debug/net7.0/ref/Logic.dll

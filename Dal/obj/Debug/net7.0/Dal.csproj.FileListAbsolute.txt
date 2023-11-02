@@ -1,0 +1,14 @@
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.csproj.AssemblyReference.cache
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.AssemblyInfoInputs.cache
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.AssemblyInfo.cs
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.csproj.CoreCompileInputs.cache
+/Users/aidimirmagomedov/Projects/Test/Dal/bin/Debug/net7.0/Dal.deps.json
+/Users/aidimirmagomedov/Projects/Test/Dal/bin/Debug/net7.0/Dal.runtimeconfig.json
+/Users/aidimirmagomedov/Projects/Test/Dal/bin/Debug/net7.0/Dal.dll
+/Users/aidimirmagomedov/Projects/Test/Dal/bin/Debug/net7.0/Dal.pdb
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.dll
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/refint/Dal.dll
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.pdb
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/Dal.genruntimeconfig.cache
+/Users/aidimirmagomedov/Projects/Test/Dal/obj/Debug/net7.0/ref/Dal.dll
