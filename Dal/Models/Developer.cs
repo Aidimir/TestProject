@@ -12,6 +12,7 @@ namespace Dal.Models
         public int Id { get; set; }
         [MinLength(1)]
         public required string Title { get; set; }
+
         [JsonIgnore]
         public virtual List<Game> Games { get; set; } = new List<Game>();
     }

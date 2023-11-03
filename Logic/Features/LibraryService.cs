@@ -1,6 +1,9 @@
 ﻿using Dal.Repositories;
 using Dal.Models;
+using Dal.Exceptions;
 using Logic.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Dal.Interfaces;
 
 namespace Logic.Features
 {
@@ -35,9 +38,10 @@ namespace Logic.Features
             return games;
         }
 
-        public async Task<Game> UpdateGame(Game game)
+        public async Task<Game> UpdateGame(int id, IPublicGame game)
         {
-            var result = await _database.UpdateGameInDbAsync(game);
+
+            var result = await _database.UpdateGameInDbAsync(id, game);
 
             return result;
         }

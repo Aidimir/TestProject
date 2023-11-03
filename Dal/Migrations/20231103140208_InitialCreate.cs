@@ -58,33 +58,33 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameGenre",
+                name: "GameGenres",
                 columns: table => new
                 {
-                    GameId = table.Column<int>(type: "integer", nullable: false),
-                    GenreId = table.Column<int>(type: "integer", nullable: false)
+                    GamesId = table.Column<int>(type: "integer", nullable: false),
+                    GenresId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameGenre", x => new { x.GameId, x.GenreId });
+                    table.PrimaryKey("PK_GameGenres", x => new { x.GamesId, x.GenresId });
                     table.ForeignKey(
-                        name: "FK_GameGenre_Games_GameId",
-                        column: x => x.GameId,
+                        name: "FK_GameGenres_Games_GamesId",
+                        column: x => x.GamesId,
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GameGenre_Genres_GenreId",
-                        column: x => x.GenreId,
+                        name: "FK_GameGenres_Genres_GenresId",
+                        column: x => x.GenresId,
                         principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameGenre_GenreId",
-                table: "GameGenre",
-                column: "GenreId");
+                name: "IX_GameGenres_GenresId",
+                table: "GameGenres",
+                column: "GenresId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_DeveloperId",
@@ -96,7 +96,7 @@ namespace Dal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GameGenre");
+                name: "GameGenres");
 
             migrationBuilder.DropTable(
                 name: "Games");

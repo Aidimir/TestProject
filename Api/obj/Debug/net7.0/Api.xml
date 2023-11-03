@@ -20,7 +20,7 @@
             <param name="genres">List of genre strings, can be null or contain some values. If database has no such genres it will return empty list of games</param>
             <returns>Returns a list of games which satisfies to given parameters (if parameters is null or empty => just returns all games in db)</returns>
         </member>
-        <member name="M:Api.Controllers.GamesController.Update(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Dal.Models.Game})">
+        <member name="M:Api.Controllers.GamesController.Update(System.Int32,Api.Controllers.DTO.RequestModels.UpdatedGameDto)">
             <summary>
             Updates game property in database
             </summary>
@@ -29,29 +29,24 @@
             <response code="202">Game updated succesfully</response>
             <response code="404">Didn't find any game in database</response>
             <response code="400">Bad request</response>
-            <remarks>
-            Sample request:
-            
-                 PATCH
-                 {
-                     {
-                         "path": "Title",
-                         "op": "replace",
-                         "value": "My new title"
-                     },
-                     {
-                         "path": "Genre",
-                         "op": "replace",
-                         "value": "["Cringe horror"]"
-                     }
-                 }
-            </remarks>
         </member>
         <member name="M:Api.Controllers.GamesController.Delete(System.Int32)">
             <summary>
             Removes game from database 
             </summary>
             <param name="gameId">Unique integer id of the game</param>
+        </member>
+        <member name="T:Api.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:Api.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Api.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Api.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

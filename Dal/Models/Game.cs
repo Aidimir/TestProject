@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using Dal.Interfaces;
 
 namespace Dal.Models
 {
@@ -23,7 +24,6 @@ namespace Dal.Models
         [NotMapped]
         public required string DeveloperTitle { get; set; }
 
-        public virtual List<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+        public virtual List<Genre> Genres { get; set; } = new List<Genre>();
     }
 }
-

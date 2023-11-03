@@ -1,4 +1,5 @@
 ﻿using Dal.Models;
+using Dal.Interfaces;
 
 namespace Logic.Interfaces
 {
@@ -6,7 +7,7 @@ namespace Logic.Interfaces
     {
         public Task<Game> CreateGame(Game game, List<string> genres);
         public Task DeleteGame(int gameId);
-        public Task<Game> UpdateGame(Game game);
+        public Task<Game> UpdateGame(int id, IPublicGame updatedGame);
         public Task<IEnumerable<Game>> FetchGames(IEnumerable<string>? genreFilter = null);
         public Task<Game> FetchGameById(int id);
     }

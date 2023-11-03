@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Logic.Interfaces;
 using Api.Controllers.DTO.RequestModels;
 using Api.Controllers.DTO.ResponseModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -27,7 +28,7 @@ namespace Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
-        public async Task<ActionResult<Game>> Create(CreateGameRequestModel request)
+        public async Task<ActionResult> Create(CreateGameRequestModel request)
         {
             var game = new Game { DeveloperTitle = request.Developer, Title = request.Title };
             var createdGame = await _service.CreateGame(game, request.Genre);
@@ -44,7 +45,7 @@ namespace Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
-        public async Task<ActionResult<IEnumerable<Game>>> FetchGames([FromQuery] IEnumerable<string>? genres)
+        public async Task<ActionResult> FetchGames([FromQuery] IEnumerable<string>? genres)
         {
             var games = await _service.FetchGames(genres);
 
@@ -59,42 +60,19 @@ namespace Api.Controllers
         /// <response code="202">Game updated succesfully</response>
         /// <response code="404">Didn't find any game in database</response>
         /// <response code="400">Bad request</response>
-
-        ///<remarks>
-        ///Sample request:
-        ///
-        ///     PATCH
-        ///     {
-        ///         {
-        ///             "path": "Title",
-        ///             "op": "replace",
-        ///             "value": "My new title"
-        ///         },
-        ///         {
-        ///             "path": "Genre",
-        ///             "op": "replace",
-        ///             "value": "["Cringe horror"]"
-        ///         }
-        ///     }
-        ///</remarks>
-
-        [HttpPatch]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status202Accepted, Type = typeof(Game))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(DefaultErrorResponseModel))]
-        public async Task<ObjectResult> Update(int gameId, [FromBody] JsonPatchDocument<Game> gameModel)
+        public async Task<ActionResult> Update(int gameId, [FromBody] UpdatedGameDto updatedGameDto)
         {
-            var neededGame = await _service.FetchGameById(gameId);
-            gameModel.ApplyTo(neededGame, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
-            if (!TryValidateModel(neededGame))
+            if (gameId != updatedGameDto.Id)
             {
-                var errors = ModelState.Values.SelectMany(value => value.Errors).SelectMany(error => error.ErrorMessage);
-                var errorsString = new string(errors.ToArray());
-                throw new FormatException($"One or more validation parameters are failed: {ModelState.ErrorCount}." +
-                    $" Errors: {errorsString}");
+                return BadRequest("Id in the URL does not match the Id in the request body.");
             }
-            var updatedGame = await _service.UpdateGame(neededGame);
 
-            return StatusCode(200, updatedGame);
+            var result = await _service.UpdateGame(gameId, updatedGameDto);
+
+            return StatusCode(200, result);
         }
 
         /// <summary>

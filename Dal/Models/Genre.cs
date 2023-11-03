@@ -13,9 +13,9 @@ namespace Dal.Models
         public int Id { get; set; }
         [MinLength(1)]
         public required string Name { get; set; }
-        [NotMapped]
+
         [JsonIgnore]
-        public List<GameGenre> GameGenres { get; set; }
+        public List<Game> Games { get; set; } = new List<Game>();
     }
 }
 

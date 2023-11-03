@@ -60,21 +60,6 @@ namespace Dal.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("Dal.Models.GameGenre", b =>
-                {
-                    b.Property<int>("GameId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("GameId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("GameGenre");
-                });
-
             modelBuilder.Entity("Dal.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -92,6 +77,21 @@ namespace Dal.Migrations
                     b.ToTable("Genres");
                 });
 
+            modelBuilder.Entity("GameGenre", b =>
+                {
+                    b.Property<int>("GamesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GenresId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("GamesId", "GenresId");
+
+                    b.HasIndex("GenresId");
+
+                    b.ToTable("GameGenres", (string)null);
+                });
+
             modelBuilder.Entity("Dal.Models.Game", b =>
                 {
                     b.HasOne("Dal.Models.Developer", "Developer")
@@ -103,38 +103,24 @@ namespace Dal.Migrations
                     b.Navigation("Developer");
                 });
 
-            modelBuilder.Entity("Dal.Models.GameGenre", b =>
+            modelBuilder.Entity("GameGenre", b =>
                 {
-                    b.HasOne("Dal.Models.Game", "Game")
-                        .WithMany("GameGenres")
-                        .HasForeignKey("GameId")
+                    b.HasOne("Dal.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dal.Models.Genre", "Genre")
-                        .WithMany("GameGenres")
-                        .HasForeignKey("GenreId")
+                    b.HasOne("Dal.Models.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("Dal.Models.Developer", b =>
                 {
                     b.Navigation("Games");
-                });
-
-            modelBuilder.Entity("Dal.Models.Game", b =>
-                {
-                    b.Navigation("GameGenres");
-                });
-
-            modelBuilder.Entity("Dal.Models.Genre", b =>
-                {
-                    b.Navigation("GameGenres");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Dal.Models;
 using Dal.Exceptions;
+using Dal.Interfaces;
+using System;
 
 namespace Dal.Repositories
 {
@@ -16,34 +18,26 @@ namespace Dal.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GameGenre>()
-    .HasKey(gg => new { gg.GameId, gg.GenreId });
-
-            modelBuilder.Entity<GameGenre>()
-                .HasOne(gg => gg.Game)
-                .WithMany(g => g.GameGenres)
-                .HasForeignKey(gg => gg.GameId);
-
-            modelBuilder.Entity<GameGenre>()
-                .HasOne(gg => gg.Genre)
-                .WithMany(g => g.GameGenres)
-                .HasForeignKey(gg => gg.GenreId);
-
+            modelBuilder.Entity<Game>()
+                .HasMany(c => c.Genres)
+                .WithMany(s => s.Games)
+                .UsingEntity(j => j.ToTable("GameGenres"));
         }
 
         public async Task<IEnumerable<Game>> FetchGamesAsync(List<string>? genreFilter)
         {
             if (genreFilter == null || genreFilter.Count() == 0)
             {
-                return await _games.Include(x => x.GameGenres).ThenInclude(gg => gg.Genre).Include(x => x.Developer).ToListAsync();
+                return await _games.Include(x => x.Genres).Include(x => x.Developer).ToListAsync();
             }
 
-            var filteredGames = await _games
-                .Where(game => game.GameGenres.Any(gg => genreFilter.Contains(gg.Genre.Name)))
-                .Include(game => game.GameGenres).ThenInclude(gg => gg.Genre)
-                .Include(game => game.Developer)
+            return await _genres
+                .Where(x => genreFilter.Select(str => str.ToLower())
+                .Contains(x.Name.ToLower()))
+                .SelectMany(genre => genre.Games)
+                .Include(x => x.Developer)
+                .Include(x => x.Genres)
                 .ToListAsync();
-            return filteredGames;
         }
 
         public async Task<Game> AddGameToDbAsync(Game game, List<string> genres)
@@ -59,29 +53,44 @@ namespace Dal.Repositories
             var genresFromDb = await FindOrCreateGenresAsync(genres);
             genresFromDb.ForEach(g =>
             {
-                game.GameGenres.Add(new GameGenre { Game = game, Genre = g });
+                game.Genres.Add(g);
+                g.Games.Add(game);
             });
 
             var developer = await FindOrCreateDeveloperAsync(game.DeveloperTitle);
             developer.Games.Add(game);
-            _developers.Update(developer);
 
             await SaveChangesAsync();
 
-            return  await _games.Include(x => x.GameGenres).Include(x => x.Developer).Where(x => x.Id == game.Id).FirstAsync();
+            return await _games
+                .Include(x => x.Genres)
+                .Include(x => x.Developer)
+                .Where(x => x.Id == game.Id)
+                .FirstAsync();
         }
 
-        public async Task<Game> UpdateGameInDbAsync(Game game)
+        public async Task<Game> UpdateGameInDbAsync(int id, IPublicGame updatedGame)
         {
-            _games.Update(game);
+            var existingGame = await FetchGameById(id);
+            var existingDeveloper = await FindOrCreateDeveloperAsync(updatedGame.Developer);
+            var existingGenres = await FindOrCreateGenresAsync(updatedGame.Genres);
+
+            existingGame.Title = updatedGame.Title;
+            existingGame.Developer = existingDeveloper;
+            existingGame.Genres = existingGenres;
+
             await SaveChangesAsync();
 
-            return game;
+            return existingGame;
         }
 
         public async Task<Game> FetchGameById(int id)
         {
-            var result = await _games.FindAsync(id);
+            var result = await _games
+                .Include(x => x.Developer)
+                .Include(x => x.Genres)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (result == null)
             {
                 throw new NotFoundException("Couldn't find any game with this id");
@@ -115,11 +124,19 @@ namespace Dal.Repositories
 
         public async Task<List<Genre>> FindOrCreateGenresAsync(List<string> genres)
         {
-            var notInDb = genres.Where(y => !_genres.Select(x => x.Name.ToLower()).Contains(y.ToLower())).Select(x => new Genre { Name = x }).ToList();
-            notInDb.ForEach(async (obj) => await _genres.AddAsync(obj));
+            var notInDb = genres
+                .Select(y => y.ToLower())
+                .Except(_genres.Select(x => x.Name.ToLower()))
+                .Select(x => new Genre { Name = x })
+                .ToList();
+
+            await _genres.AddRangeAsync(notInDb);
             await SaveChangesAsync();
 
-            return await _genres.Where(x => genres.Select(y => y.ToLower()).Contains(x.Name.ToLower())).ToListAsync();
+            return await _genres
+                .Where(x => genres.Select(y => y.ToLower())
+                .Contains(x.Name.ToLower()))
+                .ToListAsync();
         }
     }
 }
