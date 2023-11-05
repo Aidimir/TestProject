@@ -57,7 +57,7 @@ namespace Dal.Repositories
                 g.Games.Add(game);
             });
 
-            var developer = await FindOrCreateDeveloperAsync(game.DeveloperTitle);
+            var developer = await FindOrCreateDeveloperAsync(game.Developer.Title);
             developer.Games.Add(game);
 
             await SaveChangesAsync();
@@ -65,8 +65,7 @@ namespace Dal.Repositories
             return await _games
                 .Include(x => x.Genres)
                 .Include(x => x.Developer)
-                .Where(x => x.Id == game.Id)
-                .FirstAsync();
+                .FirstAsync(x => x.Id == game.Id);
         }
 
         public async Task<Game> UpdateGameInDbAsync(int id, IPublicGame updatedGame)

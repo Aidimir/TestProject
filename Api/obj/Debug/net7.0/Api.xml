@@ -12,11 +12,12 @@
             <param name="request">Your game-create request</param>
             <returns>Returns just created game object</returns>
         </member>
-        <member name="M:Api.Controllers.GamesController.FetchGames(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Api.Controllers.GamesController.FetchGames(System.Nullable{System.Int32},System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            Retrieves games from database
+            Retrieves games from database.
             </summary>
             <response code="200">Games retreived succesfully</response>
+            <param name="id">If Id parameter is not null, will return single game with specified id.</param>
             <param name="genres">List of genre strings, can be null or contain some values. If database has no such genres it will return empty list of games</param>
             <returns>Returns a list of games which satisfies to given parameters (if parameters is null or empty => just returns all games in db)</returns>
         </member>
@@ -35,18 +36,6 @@
             Removes game from database 
             </summary>
             <param name="gameId">Unique integer id of the game</param>
-        </member>
-        <member name="T:Api.Migrations.InitialCreate">
-            <inheritdoc />
-        </member>
-        <member name="M:Api.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Api.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Api.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
         </member>
     </members>
 </doc>

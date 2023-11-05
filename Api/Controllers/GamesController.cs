@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Dal.Models;
-using Microsoft.AspNetCore.JsonPatch;
 using Logic.Interfaces;
 using Api.Controllers.DTO.RequestModels;
 using Api.Controllers.DTO.ResponseModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -37,16 +35,24 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Retrieves games from database
+        /// Retrieves games from database.
         /// </summary>
         /// <response code="200">Games retreived succesfully</response>
+        /// <param name="id">If Id parameter is not null, will return single game with specified id.</param>
         /// <param name="genres">List of genre strings, can be null or contain some values. If database has no such genres it will return empty list of games</param>
         /// <returns>Returns a list of games which satisfies to given parameters (if parameters is null or empty => just returns all games in db)</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
-        public async Task<ActionResult> FetchGames([FromQuery] IEnumerable<string>? genres)
+        public async Task<ActionResult> FetchGames([FromQuery] int? id, [FromQuery] IEnumerable<string>? genres)
         {
+            if (id is not null)
+            {
+                var result = await _service.FetchGameById((int)id);
+
+                return StatusCode(200, result);
+            }
+
             var games = await _service.FetchGames(genres);
 
             return StatusCode(200, games.ToList());
