@@ -24,14 +24,15 @@ namespace Api.Controllers
         /// <param name="request">Your game-create request</param>
         /// <returns>Returns just created game object</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GameResponseModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
         public async Task<ActionResult> Create(CreateGameRequestModel request)
         {
             var game = new Game { DeveloperTitle = request.Developer, Title = request.Title };
             var createdGame = await _service.CreateGame(game, request.Genre);
+            var result = new GameResponseModel(createdGame);
 
-            return StatusCode(201, createdGame);
+            return StatusCode(201, result);
         }
 
         /// <summary>
@@ -42,20 +43,22 @@ namespace Api.Controllers
         /// <param name="genres">List of genre strings, can be null or contain some values. If database has no such genres it will return empty list of games</param>
         /// <returns>Returns a list of games which satisfies to given parameters (if parameters is null or empty => just returns all games in db)</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GameResponseModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultErrorResponseModel))]
         public async Task<ActionResult> FetchGames([FromQuery] int? id, [FromQuery] IEnumerable<string>? genres)
         {
             if (id is not null)
             {
-                var result = await _service.FetchGameById((int)id);
+                var game = await _service.FetchGameById((int)id);
+                var singleResult = new List<GameResponseModel> { new GameResponseModel(game) };
 
-                return StatusCode(200, result);
+                return StatusCode(200, singleResult);
             }
 
             var games = await _service.FetchGames(genres);
+            var result = games.Select(g => new GameResponseModel(g)).ToList();
 
-            return StatusCode(200, games.ToList());
+            return StatusCode(200, result);
         }
 
         /// <summary>
@@ -67,7 +70,7 @@ namespace Api.Controllers
         /// <response code="404">Didn't find any game in database</response>
         /// <response code="400">Bad request</response>
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status202Accepted, Type = typeof(Game))]
+        [ProducesResponseType(StatusCodes.Status202Accepted, Type = typeof(GameResponseModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(DefaultErrorResponseModel))]
         public async Task<ActionResult> Update(int gameId, [FromBody] UpdatedGameDto updatedGameDto)
         {
@@ -76,7 +79,8 @@ namespace Api.Controllers
                 return BadRequest("Id in the URL does not match the Id in the request body.");
             }
 
-            var result = await _service.UpdateGame(gameId, updatedGameDto);
+            var updatedGame = await _service.UpdateGame(gameId, updatedGameDto);
+            var result = new GameResponseModel(updatedGame);
 
             return StatusCode(200, result);
         }

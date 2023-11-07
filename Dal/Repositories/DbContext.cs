@@ -62,10 +62,7 @@ namespace Dal.Repositories
 
             await SaveChangesAsync();
 
-            return await _games
-                .Include(x => x.Genres)
-                .Include(x => x.Developer)
-                .FirstAsync(x => x.Id == game.Id);
+            return await FetchGameById(game.Id);
         }
 
         public async Task<Game> UpdateGameInDbAsync(int id, IPublicGame updatedGame)
